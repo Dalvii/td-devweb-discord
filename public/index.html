@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+
+<body class="d-flex flex-column vh-100 justify-content-between bg-chat">
+    <nav class="navbar navbar-dark bg-nav">
+        <a class="navbar-brand p-2" href="#">
+          Discord
+        </a>
+      </nav>
+    <main class="d-flex flex-fill">
+        <aside class="bg-aside" style="width: 200px;">
+            <ul id="channels" class="channels p-2 list-unstyled">
+            
+                <li class="bg-channel rounded-3 px-2 py-1 mb-2 text-white" id="myInput" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    + Creer un channel
+                </li>
+            </ul>
+        </aside>
+        <div class="chat d-flex flex-column align-items-stretch justify-content-between p-3" style="flex: 1;">
+            <ul id="messages" class="messages list-unstyled">
+                <!-- <li class="bg-chat-item rounded-3 p-2 mb-2 text-white">
+                    <button class="float-end">X</button>
+                    <h6>Théo</h6>
+                    <p class="text-wrap my-2">Message</p>
+                </li> -->
+            </ul>
+            <div class="messages_input">
+                <input id="sendMsgBtn" type="text" class="form-control" placeholder="Message">
+            </div>
+        </div>
+    </main>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="createChannelInput" class="form-control" placeholder="Nom du channel">
+            </div>
+            <div class="modal-footer">
+              <button type="button" id="createChannel" class="btn btn-primary" data-bs-dismiss="modal">Créer</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script defer src="script.js"></script>
+
+</body>
+</html>

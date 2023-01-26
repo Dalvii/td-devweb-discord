@@ -1,0 +1,59 @@
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --aside-color: #2f3136;
+    --nav: #202225;
+    --chat-bg-color: #36393f;
+    --chat-color: #32353b;
+    --chat-color2: #40444b;
+    --channel-selected: #42464d;
+    --channel-hover: #3c3f45;
+    --border: #2f3137;
+    --secondary-clr: #96989d;
+}
+
+.bg-aside {
+    background-color: var(--aside-color);
+}
+.bg-nav {
+    background-color: var(--nav);
+}
+.bg-chat {
+    background-color: var(--chat-bg-color);
+}
+.bg-chat-item {
+    background-color: var(--chat-color);
+}
+.bg-chat-item2 {
+    background-color: var(--chat-color2);
+}
+.bg-channel {
+    cursor: pointer;
+    background-color: var(--channel-selected);
+}
+
+
+.selected {
+    outline: 2px solid #242424;
+}
+
+@media screen and (max-width: 768px) {
+    main {
+        flex-direction: column;
+    }
+    .channels  {
+        display: flex !important;
+        justify-content: space-between;
+        margin: 0;
+    }
+    aside {
+        width: 100% !important;
+    }
+    .messages {
+        overflow-y: scroll;
+        max-height: calc(100vh - 220px);
+    }
+
+}
