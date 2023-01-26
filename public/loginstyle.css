@@ -1,11 +1,21 @@
-body{
+body,html{
     background-color : #0f0f0f;
+    height: 100%;
   }
+
 
 .color{
   color:#656363
 }
 
-#form2Example1{
-  color:#ea1212
+.label{
+  color:#888686
+}
+
+#email{
+  color: #ffffff
+}
+
+#password{
+  color: #ffffff
 }

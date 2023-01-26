@@ -15,16 +15,18 @@
 	<title>Page de connexion </title>
 </head>
 
-<body>
-	<div class="d-flex justify-content-center p-12 mb-2 mt-4">
+<body class="d-flex align-item-center justify-content-center">
+	<div class="d-flex justify-content-center align-self-center p-12">
 		<form class="bg-black d-flex flex-column justify-content-center align-items-center rounded-4 p-5">
 			<i class="fa-solid fa-user"></i><br>
 			<h2 class="color">User Log in</h2><br>
 			<div class="form-outline mb-3">
-				<input type="email" id="email" class="bg-dark form-control" placeholder="Email address" />
+				<label class="label">Email</label>
+				<input type="email" id="email" class="bg-dark form-control"/>
 			</div>
 			<div class="form-outline mb-3">
-				<input type="password" id="password" class="form-control" placeholder="Password" />
+				<label class="label">Password</label>
+				<input type="password" id="password" class="bg-dark form-control"/>
 			</div>
 			<button type="button" onclick="login()" id="logButton" class="bg-dark btn btn-primary btn-md">Connexion</button><br>
 
