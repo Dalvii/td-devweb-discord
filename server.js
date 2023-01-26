@@ -7,10 +7,6 @@ var corsOptions = {
 	origin: "*"
 };
 
-const a = {
-	test: 'test'
-}
-const b = structuredClone(a)
 
 app.use(cors(corsOptions));
 
