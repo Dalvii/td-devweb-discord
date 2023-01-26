@@ -7,13 +7,14 @@ myModal.addEventListener('shown.bs.modal', function () {
 })
 
 
-const BACK_URL = 'http://localhost:8080/api'
+const BACK_URL = '/api'
 
 const channelsListBox = document.querySelector('#channels')
 const messagesListBox = document.querySelector('#messages')
 const sendMessageBtn = document.querySelector('#sendMsgBtn');
 const createChannelBtn = document.querySelector('#createChannel');
 const createChannelInput = document.querySelector('#createChannelInput');
+const userBox = document.querySelector('#userBox > p');
 
 
 let channelList = []
@@ -23,12 +24,17 @@ let messagesList = []
 
 // Initialiser l'application
 async function start() {
+    await fetchUserData()
     await fetchChannels()
     if (!channelList[0]) return console.log('Aucun channel')
-    selectChannel(channelList[0].id)
-    // setInterval(() => {
-    //     fetchMessages(currentChannel.id)
-    // }, 3000);
+    if (window.location.pathname != '/') {
+        const url = window.location.pathname.substring(1)
+        selectChannel(url)
+    } else {
+        selectChannel(channelList[0].id)
+
+    }
+    
 }
 start()
 
@@ -70,6 +76,14 @@ async function fetchChannels() {
 function selectChannel(id) {
     console.log(id)
     currentChannel = channelList.find(channel => channel.id == id)
+    if (!currentChannel) {
+        messagesListBox.innerHTML = ''
+        const message = document.createElement('p')
+        message.innerText = "Channel inexistant"
+        message.style.color = 'white'
+        messagesListBox.append(message)
+        return
+    }
     const notSelectedChannel = document.querySelectorAll('.channel')
     notSelectedChannel.forEach(channel => {
         channel.classList.remove('selected')
@@ -79,6 +93,9 @@ function selectChannel(id) {
     window.history.pushState(currentChannel.id, currentChannel.id, currentChannel.id);
 
     fetchMessages(id)
+    // setInterval(() => {
+    //     fetchMessages(currentChannel.id)
+    // }, 3000);
 }
 
 
@@ -146,6 +163,25 @@ createChannelBtn.addEventListener("click", async function (event) {
     selectChannel(createdChannel.id)
     fetchMessages(currentChannel.id)
 });
+
+
+
+async function fetchUserData() {
+    const user = await getData('/user/');
+    console.log(user)
+    if (user.message) {
+        window.location.href = '/login'
+    }
+    userBox.innerText = user.username
+    // console.log(messages)
+    // messagesListBox.innerHTML = ''
+}
+
+
+function logout() {
+    setCookie('token', null)
+    window.location.href = '/login'
+}
 
 
 
