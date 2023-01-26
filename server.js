@@ -27,16 +27,21 @@ db.sequelize.sync();
 //   initial();
 // });
 
-// simple route
-app.get("/", (req, res) => {
-	res.json({ message: "Welcome to bezkoder application." });
-});
+
 
 // routes
 require('./app/routes/auth.routes')(app);
 require('./app/routes/user.routes')(app);
 require('./app/routes/message.routes')(app);
 require('./app/routes/channel.routes')(app);
+
+app.use(express.static(__dirname + '/public'));
+
+
+app.get("*", (req, res) => {
+	res.sendFile(__dirname +'/public/index.html');
+});
+
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
