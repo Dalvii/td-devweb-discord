@@ -28,6 +28,9 @@ db.sequelize.sync();
 // });
 
 
+app.get("/login", (req, res) => {
+	res.sendFile(__dirname +'/public/login.html');
+});
 
 // routes
 require('./app/routes/auth.routes')(app);
