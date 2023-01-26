@@ -14,15 +14,19 @@
         <a class="navbar-brand p-2" href="#">
           Discord
         </a>
-      </nav>
+	</nav>
     <main class="d-flex flex-fill">
-        <aside class="bg-aside" style="width: 200px;">
+        <aside class="bg-aside d-flex flex-column justify-content-between" style="width: 200px;">
             <ul id="channels" class="channels p-2 list-unstyled">
             
                 <li class="bg-channel rounded-3 px-2 py-1 mb-2 text-white" id="myInput" data-bs-toggle="modal" data-bs-target="#exampleModal">
                     + Creer un channel
                 </li>
             </ul>
+			<div id="userBox" class="user d-flex align-items-center justify-content-between bg-channel rounded-3 m-2 p-2 py-1 mb-2 text-white">
+				<p class="m-0">Pseudo</p>
+				<button onclick="logout()" class="btn btn-dark">X</button>
+			</div>
         </aside>
         <div class="chat d-flex flex-column align-items-stretch justify-content-between p-3" style="flex: 1;">
             <ul id="messages" class="messages list-unstyled">
