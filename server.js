@@ -4,8 +4,13 @@ const cors = require("cors");
 const app = express();
 
 var corsOptions = {
-	origin: "http://localhost:8081"
+	origin: "*"
 };
+
+const a = {
+	test: 'test'
+}
+const b = structuredClone(a)
 
 app.use(cors(corsOptions));
 
@@ -34,6 +39,8 @@ app.get("/", (req, res) => {
 // routes
 require('./app/routes/auth.routes')(app);
 require('./app/routes/user.routes')(app);
+require('./app/routes/message.routes')(app);
+require('./app/routes/channel.routes')(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;

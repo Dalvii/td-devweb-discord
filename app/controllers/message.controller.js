@@ -5,7 +5,7 @@ const Op = db.Sequelize.Op;
 // Create and Save a new Message
 exports.create = (req, res) => {
 	// Validate request
-	if (!req.body.content || !req.body.channel || !req.body.sender) {
+	if (!req.body.content || !req.params.channelId) {
 		res.status(400).send({
 			message: "Content can not be empty!"
 		});
@@ -13,7 +13,9 @@ exports.create = (req, res) => {
 	}
 
 	// Create a Message
-	const { content, channel, sender } = req.body
+	const { content } = req.body
+	const channel = req.params.channelId
+	const sender = req.username
 
 	// Save Message in the database
 	Message.create({ content, sender, channel })
@@ -29,11 +31,10 @@ exports.create = (req, res) => {
 };
 
 // Retrieve all Messages from the database.
-exports.findAll = (req, res) => {
-	const message = req.query.message;
-	const condition = message ? { message: { [Op.like]: `%${message}%` } } : null;
+exports.findAllFromChannel = (req, res) => {
+	const channel = req.params.channelId;
 
-	Message.findAll({ where: condition })
+	Message.findAll({ where: {channel} })
 		.then(data => {
 			res.send(data);
 		})

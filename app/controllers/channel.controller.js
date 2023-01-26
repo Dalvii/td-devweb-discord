@@ -30,7 +30,7 @@ exports.create = (req, res) => {
 
 // Retrieve all Channels from the database.
 exports.findAll = (req, res) => {
-	const channel = req.query.channel;
+	const channel = req.params.channelId;
 	const condition = channel ? { channel: { [Op.like]: `%${channel}%` } } : null;
 
 	Channel.findAll({ where: condition })
@@ -93,7 +93,7 @@ exports.update = (req, res) => {
 
 // Delete a Channel with the specified id in the request
 exports.delete = (req, res) => {
-	const id = req.params.id;
+	const id = req.params.channelId;
 
 	Channel.destroy({
 		where: { id: id }
