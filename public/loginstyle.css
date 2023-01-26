@@ -19,3 +19,9 @@ body,html{
 #password{
   color: #ffffff
 }
+
+body {
+  background-image: url('feur.jpg');
+  background-repeat: no-repeat;
+  background-size: cover
+}
