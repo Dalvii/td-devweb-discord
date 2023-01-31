@@ -10,13 +10,6 @@ module.exports = (sequelize, Sequelize) => {
                 model: 'users',
                 key: 'username'
             }
-        },
-        channel: {
-            type: Sequelize.INTEGER,
-            references: {
-                model: 'channels',
-                key: 'id'
-            }
         }
     });
     return Message;

@@ -20,18 +20,40 @@ db.message = require("../models/message.model.js")(sequelize, Sequelize);
 db.channel = require("../models/channel.model.js")(sequelize, Sequelize);
 db.permission = require("../models/permission.model.js")(sequelize, Sequelize);
 
-db.role.belongsToMany(db.user, {
-  through: "user_roles",
-  foreignKey: "roleId",
-  otherKey: "userId"
-});
-db.user.belongsToMany(db.role, {
-  through: "user_roles",
-  foreignKey: "userId",
-  otherKey: "roleId"
+// db.role.belongsToMany(db.user, {
+//   through: "user_roles",
+//   foreignKey: "roleId",
+//   otherKey: "userId"
+// });
+// db.user.belongsToMany(db.role, {
+//   through: "user_roles",
+//   foreignKey: "userId",
+//   otherKey: "roleId"
+// });
+
+
+db.channel.hasMany(db.message, { 
+	onDelete: 'cascade',
+	hooks: true, 
 });
 
-db.ROLES = ["user", "admin", "moderator"];
+db.user.hasMany(db.permission, {
+	as: 'permissions',
+	onDelete: 'cascade',
+	hooks: true
+});
+db.channel.hasMany(db.permission, {
+	as: 'permissions',
+	onDelete: 'cascade',
+	hooks: true
+});
+db.message.hasMany(db.permission, {
+	as: 'permissions',
+	onDelete: 'cascade',
+	hooks: true
+});
+
+// db.ROLES = ["user", "admin", "moderator"];
 
 module.exports = db;
 

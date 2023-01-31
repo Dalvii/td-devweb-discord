@@ -1,16 +1,17 @@
 module.exports = (sequelize, Sequelize) => {
     const Permission = sequelize.define('permissions', {
-        action: {
-            type: Sequelize.STRING,
-            allowNull: false
+        canCreate: {
+            type: Sequelize.BOOLEAN,
+            defaultValue: false
         },
-        role: {
-            type: Sequelize.INTEGER,
-            references: {
-                model: 'roles',
-                key: 'id'
-            }
-        }
+        canDelete: {
+            type: Sequelize.BOOLEAN,
+            defaultValue: false
+        },
+        canView: {
+            type: Sequelize.BOOLEAN,
+            defaultValue: false
+        },
     });
     return Permission;
 };

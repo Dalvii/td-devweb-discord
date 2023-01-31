@@ -1,8 +1,8 @@
 const db = require("../models");
-const ROLES = db.ROLES;
 const User = db.user;
+const Permission = db.permission;
 
-checkDuplicateUsernameOrEmail = (req, res, next) => {
+const checkDuplicateUsernameOrEmail = (req, res, next) => {
   console.log("Checking username or email")
   // Username
   User.findOne({
@@ -35,24 +35,61 @@ checkDuplicateUsernameOrEmail = (req, res, next) => {
   });
 };
 
-checkRolesExisted = (req, res, next) => {
-  if (req.body.roles) {
-    for (let i = 0; i < req.body.roles.length; i++) {
-      if (!ROLES.includes(req.body.roles[i])) {
-        res.status(400).send({
-          message: "Failed! Role does not exist = " + req.body.roles[i]
-        });
-        return;
-      }
-    }
-  }
-  
-  next();
-};
 
-const verifySignUp = {
+const checkPermission = (action) => {
+	return async (req, res, next) => {
+		const userUsername = req.username;
+		const channelId = req.params.channelId;
+		const messageId = req.params.messageId;
+
+		let targetId = channelId;
+		if (messageId) targetId = messageId;
+
+		const permission = await Permission.findOne({
+			where: {
+				userUsername,
+				channelId: targetId
+			}
+		});
+
+		if (!permission || !permission[action]) {
+      return res.status(401).send({
+        message: "Unauthorized"
+      });
+		}
+		next();
+	};
+}
+
+
+const sendPermission = (action) => {
+	return async (req, res, next) => {
+		const userUsername = req.username;
+		const channelId = req.params.channelId;
+		const messageId = req.params.messageId;
+
+		let targetId = channelId;
+		if (messageId) targetId = messageId;
+
+		const permission = await Permission.findOne({
+			where: {
+				userUsername,
+				channelId: targetId
+			}
+		});
+
+		if (!permission || !permission[action]) {
+      return res.status(401).send({
+        message: "Unauthorized"
+      });
+		}
+    req.permission = permission;
+		next();
+	};
+}
+
+module.exports = {
   checkDuplicateUsernameOrEmail,
-  checkRolesExisted
-};
-
-module.exports = verifySignUp;
+  checkPermission,
+  sendPermission
+};;
