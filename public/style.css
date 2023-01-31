@@ -32,6 +32,11 @@ li { cursor: pointer;
     max-height: calc(100vh - 157px);
 }
 
+.user {
+    /* background-color: ; */
+    border-radius: 50%; aspect-ratio: 1/1;
+}
+
 @media screen and (max-width: 768px) {
     main {
         flex-direction: column;

@@ -11,6 +11,7 @@ const BACK_URL = '/api'
 
 const channelsListBox = document.querySelector('#channels')
 const messagesListBox = document.querySelector('#messages')
+const usersBox = document.querySelector('#users');
 const sendMessageBtn = document.querySelector('#sendMsgBtn');
 const createChannelBtn = document.querySelector('#createChannel');
 const createChannelInput = document.querySelector('#createChannelInput');
@@ -25,6 +26,7 @@ let messagesList = []
 // Initialiser l'application
 async function start() {
     await fetchUserData()
+    await fetchUsers()
     await fetchChannels()
     if (!channelList[0]) return console.log('Aucun channel')
     if (window.location.pathname != '/') {
@@ -37,6 +39,31 @@ async function start() {
     
 }
 start()
+
+
+
+
+// Récuperer la liste des Users et les insérer dans le DOM
+async function fetchUsers() {
+    const users = await getData('/users');
+    console.log(users)
+    usersBox.innerHTML = ''
+
+    for (let i = 0; i < users.length; i++) {
+        const item = document.createElement('li')
+        console.log(item)
+        item.className = 'user bg-channel p-2 mb-2 d-flex flex-column align-items-center justify-content-center text-white'
+        item.id = 'user_' + users[i].username
+        item.innerText = users[i].username
+        usersBox.append(item)
+
+        item.addEventListener("click", function (e) {
+            console.log(e.target)
+            const id = e.target.id.substr(8)
+            selectChannel(id)
+        });
+    }
+}
 
 
 // Récuperer la liste des Channels et les insérer dans le DOM
