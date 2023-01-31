@@ -18,6 +18,12 @@ module.exports = function(app) {
     controller.findOne
   );
 
+  app.get(
+    "/api/users",
+    [authJwt.verifyToken],
+    controller.findAll
+  );
+
   // app.get(
   //   "/api/test/mod",
   //   [authJwt.verifyToken, authJwt.isModerator],

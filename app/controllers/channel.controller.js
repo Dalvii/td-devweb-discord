@@ -1,5 +1,6 @@
 const db = require("../models");
 const Channel = db.channel;
+const Permission = db.permission;
 const Op = db.Sequelize.Op;
 
 // Create and Save a new Channel
@@ -32,9 +33,24 @@ exports.create = (req, res) => {
 exports.findAll = (req, res) => {
 	const channel = req.params.channelId;
 	const condition = channel ? { channel: { [Op.like]: `%${channel}%` } } : null;
+	const userUsername = req.username
 
 	Channel.findAll({ where: condition })
-		.then(data => {
+		.then(async channels => {
+			const data = await Promise.all(channels.map(async (data) => {
+				const channel = data.dataValues
+				const permission = await Permission.findOne({
+					where: {
+						userUsername,
+						channelId: channel.id
+					}
+				});
+				if (!permission) return data.dataValues
+				data.dataValues.permission = permission.dataValues
+				return data.dataValues
+			}));
+			console.log(data)
+
 			res.send(data);
 		})
 		.catch(err => {
@@ -94,11 +110,11 @@ exports.update = (req, res) => {
 // Delete a Channel with the specified id in the request
 exports.delete = (req, res) => {
 	const id = req.params.channelId;
-
 	Channel.destroy({
-		where: { id: id }
+		where: { id: +id }
 	})
 		.then(num => {
+			console.log(num)
 			if (num == 1) {
 				res.send({
 					message: "Channel was deleted successfully!"
@@ -110,6 +126,8 @@ exports.delete = (req, res) => {
 			}
 		})
 		.catch(err => {
+			console.log(err)
+
 			res.status(500).send({
 				message: "Could not delete Channel with id=" + id
 			});

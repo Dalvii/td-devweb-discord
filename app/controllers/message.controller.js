@@ -1,5 +1,6 @@
 const db = require("../models");
 const Message = db.message;
+const Permission = db.permission;
 const Op = db.Sequelize.Op;
 
 // Create and Save a new Message
@@ -14,11 +15,11 @@ exports.create = (req, res) => {
 
 	// Create a Message
 	const { content } = req.body
-	const channel = req.params.channelId
+	const channelId = req.params.channelId
 	const sender = req.username
 
 	// Save Message in the database
-	Message.create({ content, sender, channel })
+	Message.create({ content, sender, channelId })
 		.then(data => {
 			res.send(data);
 		})
@@ -32,11 +33,11 @@ exports.create = (req, res) => {
 
 // Retrieve all Messages from the database.
 exports.findAllFromChannel = (req, res) => {
-	const channel = req.params.channelId;
+	const channelId = req.params.channelId;
 
-	Message.findAll({ where: {channel} })
-		.then(data => {
-			res.send(data);
+	Message.findAll({ where: {channelId} })
+		.then(message => {
+			res.send(message);
 		})
 		.catch(err => {
 			res.status(500).send({
@@ -68,8 +69,8 @@ exports.findOne = (req, res) => {
 
 // Find Messages from Channel id
 exports.findByChannel = (req, res) => {
-	const channel = req.params.channelId;
-	Message.findAll({ where: { channel } })
+	const channelId = req.params.channelId;
+	Message.findAll({ where: { channelId } })
 		.then(data => {
 			res.send(data);
 		})

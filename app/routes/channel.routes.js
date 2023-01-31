@@ -1,4 +1,4 @@
-const { authJwt } = require("../middleware");
+const { authJwt, permissions } = require("../middleware");
 const messageController = require("../controllers/message.controller");
 const channelController = require("../controllers/channel.controller");
 
@@ -22,7 +22,7 @@ module.exports = function (app) {
 	// Creer un channel
 	app.post(
 		"/api/channel",
-		[authJwt.verifyToken],
+		authJwt.verifyToken,
 		channelController.create
 	);
 
@@ -30,19 +30,7 @@ module.exports = function (app) {
 	app.delete(
 		"/api/channel/:channelId",
 		[authJwt.verifyToken],
+		// permissions.checkPermission('canDelete'),
 		channelController.delete
 	);
-
-
-	// app.get(
-	//   "/api/test/mod",
-	//   [authJwt.verifyToken, authJwt.isModerator],
-	//   controller.moderatorBoard
-	// );
-
-	// app.get(
-	//   "/api/test/admin",
-	//   [authJwt.verifyToken, authJwt.isAdmin],
-	//   controller.adminBoard
-	// );
 };
