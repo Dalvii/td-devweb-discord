@@ -111,6 +111,10 @@ function selectChannel(id) {
         messagesListBox.append(message)
         return
     }
+
+    // Change le titre de la page
+    document.title = currentChannel.name
+
     const notSelectedChannel = document.querySelectorAll('.channel')
     notSelectedChannel.forEach(channel => {
         channel.classList.remove('selected')
