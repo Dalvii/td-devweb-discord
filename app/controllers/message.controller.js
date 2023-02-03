@@ -100,7 +100,7 @@ exports.findBySender = (req, res) => {
 
 // Update a Message by the id in the request
 exports.update = (req, res) => {
-	const id = req.params.id;
+	const id = req.params.messageId;
 
 	Message.update(req.body, {
 		where: { id: id }
@@ -125,7 +125,7 @@ exports.update = (req, res) => {
 
 // Delete a Message with the specified id in the request
 exports.delete = (req, res) => {
-	const id = req.params.id;
+	const id = req.params.messageId;
 
 	Message.destroy({
 		where: { id: id }

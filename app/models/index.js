@@ -18,16 +18,16 @@ db.message = require("../models/message.model.js")(sequelize, Sequelize);
 db.channel = require("../models/channel.model.js")(sequelize, Sequelize);
 db.permission = require("../models/permission.model.js")(sequelize, Sequelize);
 
-// db.role.belongsToMany(db.user, {
-//   through: "user_roles",
-//   foreignKey: "roleId",
-//   otherKey: "userId"
-// });
-// db.user.belongsToMany(db.role, {
-//   through: "user_roles",
-//   foreignKey: "userId",
-//   otherKey: "roleId"
-// });
+db.role.belongsToMany(db.user, {
+  through: "user_roles",
+  foreignKey: "roleId",
+  otherKey: "userId"
+});
+db.user.belongsToMany(db.role, {
+  through: "user_roles",
+  foreignKey: "userId",
+  otherKey: "roleId"
+});
 
 
 db.channel.hasMany(db.message, { 
@@ -51,7 +51,7 @@ db.message.hasMany(db.permission, {
 	hooks: true
 });
 
-// db.ROLES = ["user", "admin", "moderator"];
+db.ROLES = ["user", "admin", "moderator"];
 
 module.exports = db;
 

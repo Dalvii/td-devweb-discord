@@ -1,5 +1,6 @@
 const db = require("../models");
 const User = db.user;
+const Channel = db.channel;
 const Permission = db.permission;
 
 const checkDuplicateUsernameOrEmail = (req, res, next) => {
@@ -59,6 +60,18 @@ const checkPermission = (action) => {
 		}
 		next();
 	};
+}
+
+
+const assignPermission = async (userId, channelId, ) => {
+  const user = await User.findByPk(userId);
+  const channel = await Channel.findByPk(channelId);
+  const permission = await Permission.create({
+    canDelete: view,
+    userId: user.id,
+    channelId: channel.id
+  });
+  return permission;
 }
 
 
