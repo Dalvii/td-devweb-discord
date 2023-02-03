@@ -14,7 +14,7 @@ module.exports = function (app) {
 
 	// Get list des channels
 	app.get(
-		"/api/channel",
+		"/api/channels",
 		[authJwt.verifyToken],
 		channelController.findAll
 	);
@@ -24,6 +24,13 @@ module.exports = function (app) {
 		"/api/channel",
 		authJwt.verifyToken,
 		channelController.create
+	);
+
+	// Modifier un channel
+	app.put(
+		"/api/channel/:channelId",
+		authJwt.verifyToken,
+		channelController.update
 	);
 
 	// Supprimer un channel

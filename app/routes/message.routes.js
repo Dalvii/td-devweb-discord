@@ -12,21 +12,33 @@ module.exports = function (app) {
 	});
 
 
-	// Get messages d'un channel
+	// Lister les messages d'un channel
 	app.get(
 		"/api/channel/:channelId",
 		[authJwt.verifyToken],
 		messageController.findAllFromChannel
 	);
 
-	// Post un message dans un channel
+	// Envoyer un message dans un channel
 	app.post(
 		"/api/channel/:channelId",
 		[authJwt.verifyToken],
 		messageController.create
-
 	)
 
+	// Modifier un message dans un channel
+	app.put(
+		"/api/channel/:channelId/:messageId",
+		[authJwt.verifyToken],
+		messageController.update
+	)
+
+	// Modifier un message dans un channel
+	app.delete(
+		"/api/channel/:channelId/:messageId",
+		[authJwt.verifyToken],
+		messageController.delete
+	)
 
 	// app.get(
 	//   "/api/test/mod",
