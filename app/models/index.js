@@ -13,21 +13,22 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 db.user = require("../models/user.model.js")(sequelize, Sequelize);
-db.role = require("../models/role.model.js")(sequelize, Sequelize);
+// db.role = require("../models/role.model.js")(sequelize, Sequelize);
 db.message = require("../models/message.model.js")(sequelize, Sequelize);
 db.channel = require("../models/channel.model.js")(sequelize, Sequelize);
 db.permission = require("../models/permission.model.js")(sequelize, Sequelize);
+db.pm = require("../models/pm.model.js")(sequelize, Sequelize);
 
-db.role.belongsToMany(db.user, {
-  through: "user_roles",
-  foreignKey: "roleId",
-  otherKey: "userId"
-});
-db.user.belongsToMany(db.role, {
-  through: "user_roles",
-  foreignKey: "userId",
-  otherKey: "roleId"
-});
+// db.role.belongsToMany(db.user, {
+//   through: "user_roles",
+//   foreignKey: "roleId",
+//   otherKey: "userId"
+// });
+// db.user.belongsToMany(db.role, {
+//   through: "user_roles",
+//   foreignKey: "userId",
+//   otherKey: "roleId"
+// });
 
 
 db.channel.hasMany(db.message, { 
@@ -50,6 +51,16 @@ db.message.hasMany(db.permission, {
 	onDelete: 'cascade',
 	hooks: true
 });
+
+
+db.user.hasMany(db.pm, { as: 'sentMessages', foreignKey: 'senderId' });
+db.user.hasMany(db.pm, { as: 'receivedMessages', foreignKey: 'recipientId' });
+
+db.pm.belongsTo(db.user, { as: 'sender', foreignKey: 'senderId' });
+db.pm.belongsTo(db.user, { as: 'recipient', foreignKey: 'recipientId' });
+
+
+
 
 db.ROLES = ["user", "admin", "moderator"];
 
