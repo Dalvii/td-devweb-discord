@@ -52,5 +52,24 @@ li { cursor: pointer;
     .messages {
         max-height: calc(100vh - 220px);
     }
-
+    #channelsAside {
+        flex-direction: row!important;
+    }
+    #channelsAside > * {
+        gap: 10px;
+    }
+    div.users {
+        order: -1;
+        max-width: none !important;
+        flex: none !important;
+        padding: 4px 4px !important;
+    }
+    #users {
+        display: flex;
+        gap: 5px;
+        margin: 0;
+    }
+    #users li {
+        width: 60px;
+    }
 }
