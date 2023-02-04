@@ -9,10 +9,13 @@ myModal.addEventListener('shown.bs.modal', function () {
 
 const BACK_URL = '/api'
 
-const channelsListBox = document.querySelector('#channels')
+
+
+const channels = document.querySelector('#channels')
+const channelsListBox = document.querySelector('#channelsList')
 const messagesListBox = document.querySelector('#messages')
 const usersBox = document.querySelector('#users');
-const sendMessageBtn = document.querySelector('#sendMsgBtn');
+const sendMessageBtn = document.querySelector('#sendMsg');
 const createChannelBtn = document.querySelector('#createChannel');
 const createChannelInput = document.querySelector('#createChannelInput');
 const userBox = document.querySelector('#userBox > p');
@@ -21,6 +24,7 @@ const userBox = document.querySelector('#userBox > p');
 let channelList = []
 let currentChannel = null;
 let messagesList = []
+let userData = {}
 
 
 // Initialiser l'application
@@ -68,7 +72,7 @@ async function fetchUsers() {
 
 // Récuperer la liste des Channels et les insérer dans le DOM
 async function fetchChannels() {
-    const channels = await getData('/channel');
+    const channels = await getData('/channels');
     channelList = channels
     console.log(channels)
     channelsListBox.innerHTML = ''
@@ -204,6 +208,7 @@ async function fetchUserData() {
         window.location.href = '/login'
     }
     userBox.innerText = user.username
+    userData = user
     // console.log(messages)
     // messagesListBox.innerHTML = ''
 }
