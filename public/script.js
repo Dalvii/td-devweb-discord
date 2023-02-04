@@ -32,6 +32,7 @@ let currentChannel = null;
 let currentPM = null;
 let messagesList = []
 let userData = {}
+let interval = null
 
 
 // Initialiser l'application
@@ -119,6 +120,15 @@ function goDms(userId) {
     dms.style.removeProperty("display", "none", "important");
     const url = '/user/'+userId
     window.history.pushState(url, url, url);
+    currentPM = userId
+    try {
+        clearInterval(interval)
+    } catch (e) {
+    }
+    interval = setInterval(() => {
+        fetchDm(userId)
+    }, 3000);
+    fetchDm(userId)
 }
 
 
@@ -198,9 +208,13 @@ function selectChannel(id) {
     window.history.pushState(currentChannel.id, currentChannel.id, currentChannel.id);
 
     fetchMessages(id)
-    // setInterval(() => {
-    //     fetchMessages(currentChannel.id)
-    // }, 3000);
+    try {
+        clearInterval(interval)
+    } catch (e) {
+    }
+    interval = setInterval(() => {
+        fetchMessages(currentChannel.id)
+    }, 3000);
 }
 
 
