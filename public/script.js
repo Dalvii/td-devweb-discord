@@ -52,9 +52,7 @@ async function start() {
         selectChannel(url)
     } else {
         selectChannel(channelList[0].id)
-
     }
-    
 }
 start()
 
@@ -170,8 +168,17 @@ async function fetchDm(userId) {
         }
 
         const message = document.createElement('p')
+        const date = document.createElement('p')
+        date.innerText = new Date(messages[i].createdAt).toLocaleDateString("fr-FR" ,{
+            day:"numeric",
+            month:"numeric",
+            hour:"numeric",
+            minute:"numeric",
+        })
+        date.style.float = 'right'
         message.classList = 'text-wrap my-2'
         message.innerText = messages[i].content
+        item.append(date)
         item.append(author)
         item.append(message)
 
@@ -240,10 +247,18 @@ async function fetchMessages(channelId) {
 
         const author = document.createElement('h6')
         author.innerText = messages[i].sender
-
+        const date = document.createElement('p')
+        date.innerText = new Date(messages[i].createdAt).toLocaleDateString("fr-FR" ,{
+            day:"numeric",
+            month:"numeric",
+            hour:"numeric",
+            minute:"numeric",
+        })
+        date.style.float = 'right'
         const message = document.createElement('p')
         message.classList = 'text-wrap my-2'
         message.innerText = messages[i].content
+        item.append(date)
         item.append(author)
         item.append(message)
 
