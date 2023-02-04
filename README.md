@@ -1,9 +1,14 @@
-# simple-jwt-nodejs-sequelize
- 
-Fork project
+# TD Dev-web Discord clone
 
+Pour installer
+```
 npm install
+```
 
-install nodemon if you want to
+Pour lancer
+```
+npm start
+```
 
-test routes to connect & merge this project with yours
+Rendez vous sur
+http://localhost:8080
