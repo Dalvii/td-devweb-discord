@@ -37,6 +37,7 @@ require('./app/routes/auth.routes')(app);
 require('./app/routes/user.routes')(app);
 require('./app/routes/message.routes')(app);
 require('./app/routes/channel.routes')(app);
+require('./app/routes/pm.routes')(app);
 
 app.use(express.static(__dirname + '/public'));
 
