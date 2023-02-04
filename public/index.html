@@ -49,6 +49,32 @@
         </div>
     </main>
 
+    <main id="dms" style="display: none;" class="d-flex flex-column flex-fill justify-content-between bg-chat">
+        <nav class="navbar navbar-dark bg-aside ">
+            <a id="backBtn" class="navbar-brand p-2" href="#">
+                <svg xmlns="http://www.w3.org/2000/svg" width="13.496" height="11.21" viewBox="0 0 13.496 11.21">
+                    <g id="Arrow_Icon" data-name="Arrow Icon" transform="translate(0 -41.674)">
+                        <g id="Group_7" data-name="Group 7" transform="translate(0 41.674)">
+                            <path id="Path_21" data-name="Path 21" d="M12.737,46.22l.021,0H3.727L6.566,43.38a.746.746,0,0,0,0-1.048l-.442-.442a.739.739,0,0,0-1.043,0L.215,46.755a.744.744,0,0,0,0,1.047l4.867,4.867a.74.74,0,0,0,1.043,0l.442-.442a.731.731,0,0,0,.215-.521.709.709,0,0,0-.215-.512L3.7,48.332h9.052a.765.765,0,0,0,.749-.757V46.95A.75.75,0,0,0,12.737,46.22Z" transform="translate(0 -41.674)"/>
+                        </g>
+                    </g>
+                </svg>
+                Retour
+            </a>
+            <h2 id="userLabel" class="m-2 text-white"></h2>
+        </nav>
+        <div class="d-flex flex-fill">
+            <div class="chat d-flex flex-column align-items-stretch justify-content-between p-3" style="flex: 1;">
+                <ul id="dm_messages" class="messages list-unstyled">
+              
+                </ul>
+                <div class="messages_input">
+                    <input id="dm_sendMsg" type="text" class="form-control" placeholder="Message">
+                </div>
+            </div>
+        </div>
+    </main>
+
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">

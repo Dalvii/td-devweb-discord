@@ -20,20 +20,33 @@ const createChannelBtn = document.querySelector('#createChannel');
 const createChannelInput = document.querySelector('#createChannelInput');
 const userBox = document.querySelector('#userBox > p');
 
+const dms = document.querySelector('#dms')
+const backBtn = document.getElementById('backBtn')
+const userLabel = document.getElementById('userLabel')
+const dmMessagesListBox = document.querySelector('#dm_messages')
+const dmSendMessageBtn = document.querySelector('#dm_sendMsg');
+
 
 let channelList = []
 let currentChannel = null;
+let currentPM = null;
 let messagesList = []
 let userData = {}
 
 
 // Initialiser l'application
 async function start() {
+    dms.style.setProperty("display", "none", "important");
+    channels.style.removeProperty("display", "none", "important");
+
     await fetchUserData()
     await fetchUsers()
     await fetchChannels()
     if (!channelList[0]) return console.log('Aucun channel')
-    if (window.location.pathname != '/') {
+    if (window.location.pathname.match(/\/user\/.*/g)) {
+        const recipientId = window.location.pathname.split('/')[2]
+        goDms(recipientId)
+    } else if (window.location.pathname != '/') {
         const url = window.location.pathname.substring(1)
         selectChannel(url)
     } else {
@@ -63,8 +76,8 @@ async function fetchUsers() {
 
         item.addEventListener("click", function (e) {
             console.log(e.target)
-            const id = e.target.id.substr(8)
-            selectChannel(id)
+            const id = e.target.id.substr(5)
+            goDms(id)
         });
     }
 }
@@ -101,10 +114,67 @@ async function fetchChannels() {
 }
 
 
+function goDms(userId) {
+    channels.style.setProperty("display", "none", "important");
+    dms.style.removeProperty("display", "none", "important");
+    const url = '/user/'+userId
+    window.history.pushState(url, url, url);
+}
+
+
+async function fetchDm(userId) {
+    const messages = await getData('/pm/' + userId)
+    console.log(messages)
+
+    // Reset la conversation
+    dmMessagesListBox.innerHTML = ''
+    userLabel.innerText = ''
+
+    if (messages.length < 1) {
+        const message = document.createElement('p')
+        message.innerText = "Aucun message"
+        message.style.color = 'white'
+        dmMessagesListBox.append(message)
+        return
+    }
+
+    // Titre de la conversation = le destinataire
+    userLabel.innerText = messages[0].recipientId == userData.username ? messages[0].senderId : messages[0].recipientId
+    
+    for (let i = 0; i < messages.length; i++) {
+        const isChannelNameMe = messages[i].senderId == userData.username
+
+        const item = document.createElement('li')
+        item.className = 'bg-chat-item rounded-3 p-2 mb-2 text-white'
+        item.id = 'message_' + messages[i].id
+
+        const author = document.createElement('h6')
+
+        if (isChannelNameMe) {
+            author.innerText = 'Moi'
+            item.style.marginLeft = '20px'
+            item.style.backgroundColor = '#292e38'
+        } else {
+            author.innerText = messages[i].recipientId
+            item.style.marginRight = '20px'
+        }
+
+        const message = document.createElement('p')
+        message.classList = 'text-wrap my-2'
+        message.innerText = messages[i].content
+        item.append(author)
+        item.append(message)
+
+        dmMessagesListBox.append(item)
+    }
+}
 
 
 // Fonction qui change l'URL, entoure le bouton du channel correspondant, et fetch les messages
 function selectChannel(id) {
+    dms.style.setProperty("display", "none", "important");
+    channels.style.removeProperty("display", "none", "important");
+
     console.log(id)
     currentChannel = channelList.find(channel => channel.id == id)
     if (!currentChannel) {
@@ -183,6 +253,23 @@ sendMessageBtn.addEventListener("keydown", async function (event) {
     }
 });
 
+dmSendMessageBtn.addEventListener("keydown", async function (event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        const message = event.target.value
+        
+        const sentMessage = await postData('/pm', {
+            content: message,
+            recipientId: currentPM
+        })
+        console.log('send')
+        event.target.value = ''
+        fetchDm(currentPM)
+    }
+});
+
+
+
 
 // Ecouter quand l'utilisateur envoie un message et envoie la requete
 createChannelBtn.addEventListener("click", async function (event) {
@@ -197,6 +284,14 @@ createChannelBtn.addEventListener("click", async function (event) {
     await fetchChannels()
     selectChannel(createdChannel.id)
     fetchMessages(currentChannel.id)
+});
+
+
+
+// Ecouter quand l'utilisateur envoie un message et envoie la requete
+backBtn.addEventListener("click", async function (event) {
+    window.history.pushState({}, '', '/')
+    start()
 });
 
 
