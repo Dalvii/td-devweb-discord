@@ -63,7 +63,7 @@ exports.findAll = (req, res) => {
 
 // Find a single Channel with an id
 exports.findOne = (req, res) => {
-	const id = req.params.id;
+	const id = req.params.channelId;
 
 	Channel.findByPk(id)
 		.then(data => {
