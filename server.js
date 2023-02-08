@@ -28,8 +28,12 @@ db.sequelize.sync();
 // });
 
 
+// Routes pour les pages Login et Register
 app.get("/login", (req, res) => {
 	res.sendFile(__dirname +'/public/login.html');
+});
+app.get("/register", (req, res) => {
+	res.sendFile(__dirname +'/public/register.html');
 });
 
 // routes
@@ -39,9 +43,9 @@ require('./app/routes/message.routes')(app);
 require('./app/routes/channel.routes')(app);
 require('./app/routes/pm.routes')(app);
 
+
+// Méthodes permettant la redirection de n'importe quel URL vers le fichier HTML principal
 app.use(express.static(__dirname + '/public'));
-
-
 app.get("*", (req, res) => {
 	res.sendFile(__dirname +'/public/index.html');
 });
@@ -52,20 +56,3 @@ const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
 	console.log(`Server is running on port ${PORT}.`);
 });
-
-function initial() {
-	Role.create({
-		id: 1,
-		name: "user"
-	});
-
-	Role.create({
-		id: 2,
-		name: "moderator"
-	});
-
-	Role.create({
-		id: 3,
-		name: "admin"
-	});
-}
