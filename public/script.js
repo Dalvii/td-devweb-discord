@@ -1,16 +1,6 @@
-let myModal = document.getElementById('exampleModal')
-let myInput = document.getElementById('myInput')
-
-myModal.addEventListener('shown.bs.modal', function () {
-    myInput.focus()
-    console.log('test')
-})
-
-
 const BACK_URL = '/api'
 
-
-
+// Recuperation des éléments du DOM
 const channels = document.querySelector('#channels')
 const channelsListBox = document.querySelector('#channelsList')
 const messagesListBox = document.querySelector('#messages')
@@ -26,7 +16,7 @@ const userLabel = document.getElementById('userLabel')
 const dmMessagesListBox = document.querySelector('#dm_messages')
 const dmSendMessageBtn = document.querySelector('#dm_sendMsg');
 
-
+// Initalisation de variables globales de l'app
 let channelList = []
 let currentChannel = null;
 let currentPM = null;
@@ -46,7 +36,7 @@ async function start() {
     if (!channelList[0]) return console.log('Aucun channel')
     if (window.location.pathname.match(/\/user\/.*/g)) {
         const recipientId = window.location.pathname.split('/')[2]
-        goDms(recipientId)
+        selectDm(recipientId)
     } else if (window.location.pathname != '/') {
         const url = window.location.pathname.substring(1)
         selectChannel(url)
@@ -76,7 +66,7 @@ async function fetchUsers() {
         item.addEventListener("click", function (e) {
             console.log(e.target)
             const id = e.target.id.substr(5)
-            goDms(id)
+            selectDm(id)
         });
     }
 }
@@ -112,8 +102,8 @@ async function fetchChannels() {
         </li>`
 }
 
-
-function goDms(userId) {
+// Gerer la redirection vers une conversation privé
+function selectDm(userId) {
     channels.style.setProperty("display", "none", "important");
     dms.style.removeProperty("display", "none", "important");
     const url = '/user/'+userId
@@ -130,6 +120,7 @@ function goDms(userId) {
 }
 
 
+// Récuperation des messages privés
 async function fetchDm(userId) {
     const messages = await getData('/pm/' + userId)
     console.log(messages)
@@ -206,6 +197,7 @@ function selectChannel(id) {
     // Change le titre de la page
     document.title = currentChannel.name
 
+    // Entoure le bouton du channel séléctionné
     const notSelectedChannel = document.querySelectorAll('.channel')
     notSelectedChannel.forEach(channel => {
         channel.classList.remove('selected')
@@ -281,7 +273,6 @@ sendMessageBtn.addEventListener("keydown", async function (event) {
         fetchMessages(currentChannel.id)
     }
 });
-
 dmSendMessageBtn.addEventListener("keydown", async function (event) {
     if (event.key === "Enter") {
         event.preventDefault();
@@ -324,7 +315,7 @@ backBtn.addEventListener("click", async function (event) {
 });
 
 
-
+// Récuperer les infos de l'utilisateur
 async function fetchUserData() {
     const user = await getData('/user/');
     console.log(user)
@@ -338,6 +329,7 @@ async function fetchUserData() {
 }
 
 
+// Déconnexion
 function logout() {
     setCookie('token', null)
     window.location.href = '/login'
