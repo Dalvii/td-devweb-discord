@@ -66,20 +66,24 @@ db.pm.belongsTo(db.user, { as: 'recipient', foreignKey: 'recipientId' });
 
 // Ajoute les roles dans la bdd si ils n'existent pas
 db.ROLES = ["user", "admin", "moderator"];
-const roles = [
-	{ id: 1, name: 'user' },
-	{ id: 2, name: 'admin' },
-	{ id: 3, name: 'moderator' }
-];
-roles.forEach(async role => {
-	const existingRole = await db.role.findOne({ where: { id: role.id } });
-	if (!existingRole) {
-		await db.role.create({
-			id: role.id,
-			name: role.name
-		});
-	}
-});
+
+setTimeout(() => {
+	
+	const roles = [
+		{ id: 1, name: 'user' },
+		{ id: 2, name: 'admin' },
+		{ id: 3, name: 'moderator' }
+	];
+	roles.forEach(async role => {
+		const existingRole = await db.role.findOne({ where: { id: role.id } });
+		if (!existingRole) {
+			await db.role.create({
+				id: role.id,
+				name: role.name
+			});
+		}
+	});
+}, 2000);
 
 module.exports = db;
 
