@@ -37,21 +37,21 @@ exports.findAll = (req, res) => {
 
 	Channel.findAll({ where: condition })
 		.then(async channels => {
-			const data = await Promise.all(channels.map(async (data) => {
-				const channel = data.dataValues
-				const permission = await Permission.findOne({
-					where: {
-						userUsername,
-						channelId: channel.id
-					}
-				});
-				if (!permission) return data.dataValues
-				data.dataValues.permission = permission.dataValues
-				return data.dataValues
-			}));
-			console.log(data)
+			// const data = await Promise.all(channels.map(async (data) => {
+			// 	const channel = data.dataValues
+			// 	const permission = await Permission.findOne({
+			// 		where: {
+			// 			userUsername,
+			// 			channelId: channel.id
+			// 		}
+			// 	});
+			// 	if (!permission) return data.dataValues
+			// 	data.dataValues.permission = permission.dataValues
+			// 	return data.dataValues
+			// }));
+			// console.log(data)
 
-			res.send(data);
+			res.send(channels);
 		})
 		.catch(err => {
 			res.status(500).send({
