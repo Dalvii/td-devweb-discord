@@ -18,14 +18,7 @@ module.exports = function (app) {
 		[authJwt.verifyToken],
 		channelController.findAll
 	);
-
-	// Get un channel
-	app.get(
-		"/api/channel/:channelId",
-		[authJwt.verifyToken],
-		channelController.findOne
-	);
-
+	
 	// Creer un channel
 	app.post(
 		"/api/channel",
