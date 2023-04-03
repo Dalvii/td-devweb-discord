@@ -6,6 +6,12 @@ const sequelize = new Sequelize({
 	storage: './database.sqlite'
 });
 
+// const sequelize = new Sequelize('tddevweb', 'tdddevweb', 'td-devweb', {
+// 	host: 'db4free.net',
+// 	port: '3306',
+// 	dialect: 'mysql'
+// });
+
 
 const db = {};
 
